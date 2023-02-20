@@ -146,6 +146,28 @@ describe('Strategy', () => {
       assertHasUpdate(updates!, '0', Generic);
       assertHasUpdate(updates!, '3.yaml', GenericYaml);
     });
+    it('updates extra Text files', async () => {
+      const strategy = new TestStrategy({
+        targetBranch: 'main',
+        github,
+        component: 'google-cloud-automl',
+        extraFiles: [
+          {
+            type: 'text',
+            path: 'generic.txt',
+            inlineUpdateRegex: 'versionString:',
+          },
+        ],
+      });
+      const pullRequest = await strategy.buildReleasePullRequest(
+        buildMockConventionalCommit('fix: a bugfix'),
+        undefined
+      );
+      expect(pullRequest).to.exist;
+      const updates = pullRequest?.updates;
+      expect(updates).to.be.an('array');
+      assertHasUpdate(updates!, 'generic.txt', Generic);
+    });
     it('updates extra TOML files', async () => {
       const strategy = new TestStrategy({
         targetBranch: 'main',

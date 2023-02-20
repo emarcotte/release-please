@@ -117,6 +117,30 @@
                 "type": "string"
               },
               {
+                "description": "A `Generic` updater with configuration options",
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "description": "The file format type.",
+                    "enum": ["generic"]
+                  },
+                  "path": {
+                    "description": "The path to the file.",
+                    "type": "string"
+                  },
+                  "inlineUpdateRegex": {
+                    "type": "string"
+                  },
+                  "blockStartRegex": {
+                    "type": "string"
+                  },
+                  "blockEndRegex": {
+                    "type": "string"
+                  }
+                },
+                "required": ["path", "type"]
+              },
+              {
                 "description": "An extra JSON, YAML, or TOML file with a targeted update via jsonpath.",
                 "type": "object",
                 "properties": {

@@ -420,6 +420,25 @@ export abstract class BaseStrategy implements Strategy {
                 updater: new PomXml(version),
               });
               break;
+            case 'text':
+              extraFileUpdates.push({
+                path: this.addPath(extraFile.path),
+                createIfMissing: false,
+                updater: new Generic({
+                  inlineUpdateRegex: extraFile.inlineUpdateRegex
+                    ? new RegExp(extraFile.inlineUpdateRegex)
+                    : undefined,
+                  blockStartRegex: extraFile.blockStartRegex
+                    ? new RegExp(extraFile.blockStartRegex)
+                    : undefined,
+                  blockEndRegex: extraFile.blockEndRegex
+                    ? new RegExp(extraFile.blockEndRegex)
+                    : undefined,
+                  version,
+                  versionsMap,
+                }),
+              });
+              break;
             default:
               throw new Error(
                 `unsupported extraFile type: ${
